@@ -7,9 +7,9 @@
 
 import UIKit
 
-class TodayViewController: UIViewController {
+class TodayViewController: UIViewController, UISearchBarDelegate {
 
-    @IBOutlet weak var locationTextField: UITextField!
+
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var conditionLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -19,9 +19,11 @@ class TodayViewController: UIViewController {
     @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var pressureLabel: UILabel!
     @IBOutlet weak var precipLabel: UILabel!
+    @IBOutlet weak var searchBar: UISearchBar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchBar.delegate = self // Set the search bar delegate
         conditionLabel.text = ""
         temperatureLabel.text = "Current temp: "
         feelsLikeLabel.text = "Feels like: "
@@ -33,22 +35,29 @@ class TodayViewController: UIViewController {
         // Additional setup if needed
     }
 
-    @IBAction func fetchButtonTapped(_ sender: Any) {
-        guard let location = locationTextField.text, !location.isEmpty else {
-           
-            return
-        }
-        
-        Task {
-            do {
-                let weatherData = try await WeatherAPI_Helper.fetchWeatherData(cityName: location)
-                updateUI(with: weatherData)
-                print(weatherData)
-            } catch {
-                // Handle errors
-            }
-        }
-    }
+    // UISearchBarDelegate method to handle the search action
+       func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+           searchBar.resignFirstResponder() // Dismiss the keyboard
+
+           guard let cityName = searchBar.text, !cityName.isEmpty else {
+               // Optionally, inform the user that the search bar is empty
+               return
+           }
+
+           fetchWeatherForCity(cityName)
+       }
+
+       private func fetchWeatherForCity(_ cityName: String) {
+           Task {
+               do {
+                   let weatherData = try await WeatherAPI_Helper.fetchWeatherData(cityName: cityName)
+                   updateUI(with: weatherData)
+               } catch {
+                   // Handle errors, perhaps by showing an alert with the error description
+                   print("Error fetching weather: \(error.localizedDescription)")
+               }
+           }
+       }
 
     // This should be marked with @MainActor if not already, to ensure it runs on the main thread.
     @MainActor
