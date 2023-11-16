@@ -39,7 +39,7 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
     private func clearForecastUI() {
         // Set initial states for your labels and image views
         let labels = [dayOneTemperatureLabel, dayTwoTemperatureLabel, dayThreeTemperatureLabel,
-                      dayOneConditionLabel, dayTwoConditionLabel, dayThreeConditionLabel]
+                      dayOneConditionLabel, dayTwoConditionLabel, dayThreeConditionLabel, dayOneDateLabel, dayTwoDateLabel, dayThreeDateLabel]
         for label in labels {
             label?.text = ""
         }

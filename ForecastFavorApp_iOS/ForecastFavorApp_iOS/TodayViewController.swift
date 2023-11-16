@@ -24,7 +24,7 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self // Set the search bar delegate
-        conditionLabel.text = ""
+        conditionLabel.text = "Current condition:"
         temperatureLabel.text = "Current temp: "
         feelsLikeLabel.text = "Feels like: "
         humidityLabel.text = "Humidity: "
@@ -75,7 +75,7 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
             }
             
             // Since this is already on the main thread, you can update the UI directly
-            conditionLabel.text = weatherData.current.condition.text
+            conditionLabel.text = "Current condition: \(weatherData.current.condition.text)"
             temperatureLabel.text = "Current temp: \(weatherData.current.temp_c)°C"
             feelsLikeLabel.text = "Feels like: \(weatherData.current.feelslike_c)°C"
             humidityLabel.text = "Humidity: \(weatherData.current.humidity)%"

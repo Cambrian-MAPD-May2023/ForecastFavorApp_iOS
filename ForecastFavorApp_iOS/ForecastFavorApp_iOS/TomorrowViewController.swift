@@ -26,7 +26,7 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self // Set the search bar delegate
-        conditionLabel.text = ""
+        conditionLabel.text = "Condition: "
         temperatureLabel.text = "Current temp: "
         chanceOfRainLabel.text = "Chance of rain: "
         humidityLabel.text = "Humidity: "
@@ -67,7 +67,7 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
     private func updateUI(with forecastDay: ForecastdayContainer) async {
         // Update the UI with the details from forecastDay
         let condition = forecastDay.day.condition
-        conditionLabel.text = condition.text
+        conditionLabel.text = "Condition: \(condition.text)"
         temperatureLabel.text = "High: \(forecastDay.day.maxtemp_c)°C, Low: \(forecastDay.day.mintemp_c)°C"
         windLabel.text = "Wind: \(forecastDay.day.maxwind_kph) kph"
         precipitationLabel.text = "Precipitation: \(forecastDay.day.totalprecip_mm) mm"
