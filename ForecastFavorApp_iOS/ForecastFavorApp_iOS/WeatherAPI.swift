@@ -57,5 +57,56 @@ struct Current: Codable {
 struct WeatherResponse: Codable {
     let location: Location
     let current: Current
+    let forecast: Forecast?
+
 }
 
+// The structure for the "day" part of the "forecastday" response
+struct ForecastDay: Codable {
+    let maxtemp_c: Double
+    let mintemp_c: Double
+    let avgtemp_c: Double
+    let maxwind_kph: Double
+    let totalprecip_mm: Double
+    let avgvis_km: Double
+    let avghumidity: Double
+    let condition: Condition
+    let uv: Double
+    let daily_chance_of_rain: Int
+    let daily_chance_of_snow: Int
+}
+
+// The structure for the "hour" part of the "forecastday" response
+struct HourlyForecast: Codable {
+    let time_epoch: Int
+    let time: String
+    let temp_c: Double
+    let is_day: Int
+    let condition: Condition
+    let wind_kph: Double
+    let wind_degree: Int
+    let wind_dir: String
+    let pressure_mb: Double
+    let precip_mm: Double
+    let humidity: Int
+    let cloud: Int
+    let feelslike_c: Double
+    let chance_of_rain: Int
+    let chance_of_snow: Int
+    let gust_kph: Double
+   
+}
+
+// Now include the hourly forecast in the ForecastdayContainer structure
+struct ForecastdayContainer: Codable {
+    let date: String
+    let day: ForecastDay
+    let hour: [HourlyForecast] // Add this line to include hourly data
+   
+}
+
+
+// The structure for the "forecast" part of the response
+struct Forecast: Codable {
+    let forecastday: [ForecastdayContainer]
+}
