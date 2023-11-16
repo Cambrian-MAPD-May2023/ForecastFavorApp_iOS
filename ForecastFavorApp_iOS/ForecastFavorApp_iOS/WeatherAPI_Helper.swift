@@ -94,6 +94,27 @@ actor WeatherAPI_Helper {
           return data
       }
     
-    // Additional methods for fetching forecast data, historical data, etc.
+    public static func fetchForecastData(cityName: String, days: Int) async throws -> WeatherResponse {
+        guard var urlComponents = URLComponents(string: "\(baseURL)forecast.json") else {
+            throw WeatherAPI_Errors.cannotCreateURLComponent
+        }
+
+        urlComponents.queryItems = [
+            URLQueryItem(name: "key", value: apiKey),
+            URLQueryItem(name: "q", value: cityName),
+            URLQueryItem(name: "days", value: String(days)),
+            URLQueryItem(name: "aqi", value: "no"),
+            URLQueryItem(name: "alerts", value: "no")
+        ]
+
+        guard let urlString = urlComponents.string else {
+            throw WeatherAPI_Errors.cannotCreateURLComponent
+        }
+
+        let data = try await fetch(urlString: urlString)
+        let forecastResponse = try decoder.decode(WeatherResponse.self, from: data)
+        return forecastResponse
+    }
+
 }
 
