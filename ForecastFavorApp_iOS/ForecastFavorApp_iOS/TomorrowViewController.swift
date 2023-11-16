@@ -44,7 +44,7 @@ class TomorrowViewController: UIViewController {
         Task {
             do {
                 // Asynchronously fetch the forecast data for the next day
-                let forecastData = try await WeatherAPI_Helper.fetchForecastData(cityName: location, days: 3)
+                let forecastData = try await WeatherAPI_Helper.fetchForecastData(cityName: location, days: 1)
                 // Make sure to safely unwrap the array element to avoid potential index out of range error
                 if let tomorrowForecast = forecastData.forecast?.forecastday[1] {
                     await updateUI(with: tomorrowForecast)
