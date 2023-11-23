@@ -11,15 +11,12 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
 
     // Outlets for your UI components
 
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var conditionLabel: UILabel!
     @IBOutlet weak var temperatureLabel: UILabel!
-    @IBOutlet weak var windLabel: UILabel!
     @IBOutlet weak var precipitationLabel: UILabel!
-    @IBOutlet weak var humidityLabel: UILabel!
-    @IBOutlet weak var chanceOfRainLabel: UILabel!
-    @IBOutlet weak var chanceOfSnowLabel: UILabel!
-    @IBOutlet weak var uvLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
     // ... other labels for additional forecast details
 
@@ -28,12 +25,7 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
         searchBar.delegate = self // Set the search bar delegate
         conditionLabel.text = "Condition: "
         temperatureLabel.text = "Current temp: "
-        chanceOfRainLabel.text = "Chance of rain: "
-        humidityLabel.text = "Humidity: "
         precipitationLabel.text = "Precipitation: "
-        windLabel.text = "Wind: "
-        chanceOfSnowLabel.text = "Chance of Snow: "
-        uvLabel.text = "UV Index: "
         // Set initial states for your labels, image views, etc.
     }
     // This method is called when the user taps the search button on the keyboard
@@ -67,14 +59,11 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
     private func updateUI(with forecastDay: ForecastdayContainer) async {
         // Update the UI with the details from forecastDay
         let condition = forecastDay.day.condition
-        conditionLabel.text = "Condition: \(condition.text)"
-        temperatureLabel.text = "High: \(forecastDay.day.maxtemp_c)°C, Low: \(forecastDay.day.mintemp_c)°C"
-        windLabel.text = "Wind: \(forecastDay.day.maxwind_kph) kph"
-        precipitationLabel.text = "Precipitation: \(forecastDay.day.totalprecip_mm) mm"
-        humidityLabel.text = "Humidity: \(forecastDay.day.avghumidity)%"
-        chanceOfRainLabel.text = "Chance of Rain: \(forecastDay.day.daily_chance_of_rain)%"
-        chanceOfSnowLabel.text = "Chance of Snow: \(forecastDay.day.daily_chance_of_snow)%"
-        uvLabel.text = "UV Index: \(forecastDay.day.uv)"
+        cityLabel.text = searchBar.text
+        dateLabel.text = forecastDay.date
+        conditionLabel.text = "\(condition.text)"
+        temperatureLabel.text = "\(forecastDay.day.maxtemp_c)°C ↑,\(forecastDay.day.mintemp_c)°C ↓"
+        precipitationLabel.text = "\(forecastDay.day.totalprecip_mm)% chance of precipitation"
         // Fetch and set the condition image
         do {
             let iconURLString = "https:\(condition.icon)"
