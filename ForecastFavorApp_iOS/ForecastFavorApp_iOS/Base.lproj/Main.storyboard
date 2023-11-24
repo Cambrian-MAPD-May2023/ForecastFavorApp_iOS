@@ -87,9 +87,21 @@
                                     </imageView>
                                 </subviews>
                             </stackView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XrX-Fc-GT3">
-                                <rect key="frame" x="95" y="520" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XrX-Fc-GT3">
+                                <rect key="frame" x="0.0" y="520" width="430" height="128"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0dp-xx-4Wf">
+                                        <rect key="frame" x="0.0" y="0.0" width="430" height="128"/>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="0dp-xx-4Wf" firstAttribute="top" secondItem="HaI-j3-iXW" secondAttribute="top" id="5yK-76-LpN"/>
+                                    <constraint firstItem="HaI-j3-iXW" firstAttribute="bottom" secondItem="0dp-xx-4Wf" secondAttribute="bottom" id="OVR-nN-ThY"/>
+                                    <constraint firstItem="0dp-xx-4Wf" firstAttribute="centerY" secondItem="XrX-Fc-GT3" secondAttribute="centerY" id="W42-9v-ycp"/>
+                                    <constraint firstItem="0dp-xx-4Wf" firstAttribute="leading" secondItem="48k-pV-EAH" secondAttribute="leading" id="XKv-2F-E1j"/>
+                                    <constraint firstAttribute="bottom" secondItem="0dp-xx-4Wf" secondAttribute="bottom" constant="9" id="ZKA-fz-b7N"/>
+                                    <constraint firstItem="48k-pV-EAH" firstAttribute="trailing" secondItem="0dp-xx-4Wf" secondAttribute="trailing" id="ebA-Qv-2Nf"/>
+                                </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="48k-pV-EAH"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="HaI-j3-iXW"/>
                             </scrollView>
@@ -99,20 +111,24 @@
                         <constraints>
                             <constraint firstItem="ued-LD-ShN" firstAttribute="top" secondItem="fSb-Ci-Qi5" secondAttribute="bottom" id="2C0-hq-Cyv"/>
                             <constraint firstItem="ued-LD-ShN" firstAttribute="leading" secondItem="fSb-Ci-Qi5" secondAttribute="leading" id="3gs-pB-Qwm"/>
+                            <constraint firstItem="XrX-Fc-GT3" firstAttribute="top" secondItem="ysY-0r-gjl" secondAttribute="top" constant="520" id="4bh-Zb-cLw"/>
                             <constraint firstItem="ued-LD-ShN" firstAttribute="top" secondItem="ysY-0r-gjl" secondAttribute="top" constant="103" id="5yb-Ut-yaJ"/>
                             <constraint firstItem="7VO-zc-vjR" firstAttribute="bottom" secondItem="Jq5-hY-gFW" secondAttribute="bottom" constant="24.666666666666629" id="6zP-bc-a9U"/>
                             <constraint firstItem="ued-LD-ShN" firstAttribute="trailing" secondItem="fSb-Ci-Qi5" secondAttribute="trailing" constant="5" id="7yQ-1I-xJf"/>
+                            <constraint firstAttribute="bottom" secondItem="XrX-Fc-GT3" secondAttribute="bottom" constant="284" id="CpO-1A-eIV"/>
                             <constraint firstItem="s5Y-Wd-gN6" firstAttribute="leading" secondItem="Jq5-hY-gFW" secondAttribute="trailing" constant="4.3333333333333286" id="Iaq-D6-HdD"/>
                             <constraint firstItem="69I-85-2YT" firstAttribute="centerX" secondItem="iQB-iw-bam" secondAttribute="centerX" id="JXK-vJ-xBz"/>
                             <constraint firstItem="69I-85-2YT" firstAttribute="centerX" secondItem="ysY-0r-gjl" secondAttribute="centerX" id="Y1V-sv-fP4"/>
                             <constraint firstItem="7VO-zc-vjR" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="s5Y-Wd-gN6" secondAttribute="trailing" symbolic="YES" id="ZAM-XR-jSg"/>
                             <constraint firstItem="69I-85-2YT" firstAttribute="centerX" secondItem="fSb-Ci-Qi5" secondAttribute="centerX" id="bj3-0C-epB"/>
+                            <constraint firstItem="XrX-Fc-GT3" firstAttribute="leading" secondItem="7VO-zc-vjR" secondAttribute="leading" id="hJN-2P-IPm"/>
                             <constraint firstItem="69I-85-2YT" firstAttribute="top" secondItem="ued-LD-ShN" secondAttribute="bottom" constant="6" id="kwS-Y9-N5P"/>
                             <constraint firstItem="69I-85-2YT" firstAttribute="leading" secondItem="7VO-zc-vjR" secondAttribute="leading" constant="5" id="oAW-3W-p9j"/>
                             <constraint firstItem="7VO-zc-vjR" firstAttribute="trailing" secondItem="ued-LD-ShN" secondAttribute="trailing" id="pLH-wl-MXf"/>
                             <constraint firstItem="iQB-iw-bam" firstAttribute="top" secondItem="69I-85-2YT" secondAttribute="bottom" constant="8.3333333333333144" id="pth-H8-dQu"/>
                             <constraint firstItem="Jq5-hY-gFW" firstAttribute="centerY" secondItem="s5Y-Wd-gN6" secondAttribute="centerY" constant="1" id="qI7-DN-cfj"/>
                             <constraint firstItem="Jq5-hY-gFW" firstAttribute="leading" secondItem="7VO-zc-vjR" secondAttribute="leading" constant="89" id="uQm-ZE-j5d"/>
+                            <constraint firstItem="7VO-zc-vjR" firstAttribute="trailing" secondItem="XrX-Fc-GT3" secondAttribute="trailing" id="wDG-6n-vjN"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Tomorrow" id="QAQ-RD-RUt"/>
@@ -121,6 +137,7 @@
                         <outlet property="conditionImageView" destination="Nha-fM-wNv" id="0Ui-68-Sel"/>
                         <outlet property="conditionLabel" destination="IZh-2g-LTa" id="CO0-ZN-IvV"/>
                         <outlet property="dateLabel" destination="UW2-ti-JoG" id="lhs-31-hzz"/>
+                        <outlet property="hourlyStackView" destination="0dp-xx-4Wf" id="E4H-aP-cVD"/>
                         <outlet property="precipitationLabel" destination="s5Y-Wd-gN6" id="Ilr-Gp-Lb5"/>
                         <outlet property="searchBar" destination="fSb-Ci-Qi5" id="05T-oS-5yz"/>
                         <outlet property="temperatureLabel" destination="h99-Hs-iyt" id="BFu-ou-mRs"/>
@@ -223,16 +240,15 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BFj-8e-9Ty">
                                 <rect key="frame" x="0.0" y="680" width="430" height="128"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K4M-i8-JpB">
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jrd-N9-Jj6">
                                         <rect key="frame" x="0.0" y="0.0" width="430" height="128"/>
                                     </stackView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="K4M-i8-JpB" firstAttribute="bottom" secondItem="pDP-eu-iAY" secondAttribute="bottom" id="MQB-r2-ABf"/>
-                                    <constraint firstItem="K4M-i8-JpB" firstAttribute="centerX" secondItem="BFj-8e-9Ty" secondAttribute="centerX" id="hYG-Br-0ee"/>
-                                    <constraint firstItem="K4M-i8-JpB" firstAttribute="leading" secondItem="pDP-eu-iAY" secondAttribute="leading" id="khz-D8-MQG"/>
-                                    <constraint firstItem="pDP-eu-iAY" firstAttribute="right" secondItem="K4M-i8-JpB" secondAttribute="right" id="xfx-Xs-1du"/>
-                                    <constraint firstItem="K4M-i8-JpB" firstAttribute="top" secondItem="pDP-eu-iAY" secondAttribute="top" id="zMN-ou-Bgr"/>
+                                    <constraint firstItem="Jrd-N9-Jj6" firstAttribute="leading" secondItem="BoW-rK-dx4" secondAttribute="leading" id="9rT-Mp-amJ"/>
+                                    <constraint firstItem="BoW-rK-dx4" firstAttribute="trailing" secondItem="Jrd-N9-Jj6" secondAttribute="trailing" constant="-430" id="A09-6b-33w"/>
+                                    <constraint firstItem="Jrd-N9-Jj6" firstAttribute="top" secondItem="pDP-eu-iAY" secondAttribute="top" id="eWb-re-1pj"/>
+                                    <constraint firstItem="pDP-eu-iAY" firstAttribute="bottom" secondItem="Jrd-N9-Jj6" secondAttribute="bottom" id="rYh-U6-zJA"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="BoW-rK-dx4"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="pDP-eu-iAY"/>
@@ -265,7 +281,7 @@
                         <outlet property="conditionImageView" destination="SZb-cZ-0RO" id="P79-uY-IAs"/>
                         <outlet property="conditionLabel" destination="1wd-xY-ydB" id="Maf-xu-zYv"/>
                         <outlet property="hourlyScrollView" destination="BFj-8e-9Ty" id="ooi-jI-Yeg"/>
-                        <outlet property="hourlyStackView" destination="K4M-i8-JpB" id="8hM-yb-pWL"/>
+                        <outlet property="hourlyStackView" destination="Jrd-N9-Jj6" id="9VJ-uB-mrn"/>
                         <outlet property="humidityLabel" destination="jw9-hz-zPH" id="3Vo-o1-tOY"/>
                         <outlet property="pressureLabel" destination="amr-cP-Rjs" id="Adj-6R-Zci"/>
                         <outlet property="searchBar" destination="lU7-Xh-9WE" id="lIv-Bf-ZAW"/>
@@ -473,7 +489,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bcd-BL-grq">
-                                <rect key="frame" x="-4" y="59" width="427" height="44"/>
+                                <rect key="frame" x="-4" y="59" width="426" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="barTintColor" name="AccentColor"/>
                                 <items>
