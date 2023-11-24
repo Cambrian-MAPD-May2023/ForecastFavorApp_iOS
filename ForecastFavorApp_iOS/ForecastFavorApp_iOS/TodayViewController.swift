@@ -46,9 +46,9 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
             do {
                 let weatherData = try await WeatherAPI_Helper.fetchWeatherData(cityName: cityName)
                 let forecastData = try await WeatherAPI_Helper.fetchForecastData(cityName: cityName, days: 1)
-                await updateUI(with: weatherData)
+                    updateUI(with: weatherData)
                 if let hourlyData = forecastData.forecast?.forecastday.first?.hour {
-                    await updateHourlyForecast(weatherData: hourlyData)
+                    updateHourlyForecast(weatherData: hourlyData)
                 }
             } catch {
                 // Handle errors, perhaps by showing an alert with the error description
