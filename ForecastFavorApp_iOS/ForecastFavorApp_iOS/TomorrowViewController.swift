@@ -18,6 +18,7 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var precipitationLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var hourlyStackView: UIStackView!
     // ... other labels for additional forecast details
 
     override func viewDidLoad() {
@@ -43,9 +44,9 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
        private func fetchWeatherForCity(_ cityName: String) {
            Task {
                do {
-                   let forecastData = try await WeatherAPI_Helper.fetchForecastData(cityName: cityName, days: 1)
+                   let forecastData = try await WeatherAPI_Helper.fetchForecastData(cityName: cityName, days: 2)
                    // Index should be 0 for the first element which is tomorrow's forecast
-                   if let tomorrowForecast = forecastData.forecast?.forecastday.first {
+                   if let tomorrowForecast = forecastData.forecast?.forecastday[1] {
                        await updateUI(with: tomorrowForecast)
                    }
                } catch {
@@ -75,7 +76,102 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
             print("Failed to fetch image: \(error)")
             // Handle image fetching errors, perhaps set a placeholder image
         }
+        
+        // Update the hourly forecast
+        updateHourlyForecast(weatherData: forecastDay.hour)
     }
+    
+    @MainActor
+       private func updateHourlyForecast(weatherData: [HourlyForecast]) {
+           // Remove all existing hourly views
+           hourlyStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
 
+           // Add new hourly views
+           for hour in weatherData {
+               let hourView = createHourlyView(for: hour)
+               hourlyStackView.addArrangedSubview(hourView)
+           }
+       }
+    
+    private func createHourlyView(for hour: HourlyForecast) -> UIView {
+        let hourView = UIView()
+        hourView.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Create a vertical stack view
+        let verticalStackView = UIStackView()
+        verticalStackView.axis = .vertical
+        verticalStackView.alignment = .fill
+        verticalStackView.distribution = .equalSpacing
+        verticalStackView.spacing = 4
+        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let timeLabel = UILabel()
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        timeLabel.text = formatTime(hour.time)
+        
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        
+        let tempLabel = UILabel()
+        tempLabel.translatesAutoresizingMaskIntoConstraints = false
+        tempLabel.text = "\(hour.temp_c)°C"
+        
+        let rainProbLabel = UILabel()
+        rainProbLabel.translatesAutoresizingMaskIntoConstraints = false
+        rainProbLabel.text = "Rain: \(hour.chance_of_rain)%"
+        
+        // Add each label and image view to the vertical stack view
+        verticalStackView.addArrangedSubview(timeLabel)
+        verticalStackView.addArrangedSubview(imageView)
+        verticalStackView.addArrangedSubview(tempLabel)
+        verticalStackView.addArrangedSubview(rainProbLabel)
+        
+        // Assuming you want each hourView to be 80 points wide:
+           let hourViewWidth = 80
+        hourView.widthAnchor.constraint(equalToConstant: CGFloat(hourViewWidth)).isActive = true
+
+        // Add the vertical stack view to the hourView
+        hourView.addSubview(verticalStackView)
+        
+        // Define constraints
+        NSLayoutConstraint.activate([
+            verticalStackView.leadingAnchor.constraint(equalTo: hourView.leadingAnchor),
+            verticalStackView.trailingAnchor.constraint(equalTo: hourView.trailingAnchor),
+            verticalStackView.topAnchor.constraint(equalTo: hourView.topAnchor),
+            verticalStackView.bottomAnchor.constraint(equalTo: hourView.bottomAnchor)
+        ])
+        // Fetch and set the image
+        Task {
+            do {
+                let imageData = try await WeatherAPI_Helper.fetchImageData(from: hour.condition.icon)
+                DispatchQueue.main.async {
+                    imageView.image = UIImage(data: imageData)
+                }
+            } catch {
+                print("Failed to fetch image for hour: \(error)")
+                // Handle errors, such as setting a placeholder image
+            }
+        }
+        
+        return hourView
+    }
+    
+    private func formatTime(_ timeString: String) -> String {
+        // Assuming the time string is in the format "yyyy-MM-dd HH:mm"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
+        if let date = dateFormatter.date(from: timeString) {
+            dateFormatter.dateFormat = "ha" // Example format: 3PM, 4AM, etc.
+            return dateFormatter.string(from: date)
+        } else {
+            return timeString // Or handle the error appropriately
+        }
+    }
+    
+    
+   
+    
+  
     
 }
