@@ -208,13 +208,13 @@
                                                 <rect key="frame" x="0.0" y="-3.5527136788005009e-15" width="13" height="20.666666666666671"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Pressure" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amr-cP-Rjs">
-                                                <rect key="frame" x="41" y="0.0" width="67" height="20.333333333333332"/>
+                                                <rect key="frame" x="41.000000000000028" y="0.0" width="67" height="20.333333333333332"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="drop" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="uAo-2W-1i2">
-                                                <rect key="frame" x="136" y="0.66666666666666607" width="14.333333333333343" height="19"/>
+                                                <rect key="frame" x="136.00000000000003" y="0.66666666666666607" width="14.333333333333343" height="19"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Humidity" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jw9-hz-zPH">
                                                 <rect key="frame" x="178.33333333333334" y="0.0" width="68.333333333333343" height="20.333333333333332"/>
@@ -223,10 +223,10 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wind.snow" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="YXb-tF-7UI">
-                                                <rect key="frame" x="274.66666666666663" y="0.33333333333333393" width="21" height="18.333333333333329"/>
+                                                <rect key="frame" x="274.66666666666674" y="0.33333333333333393" width="21" height="18.333333333333329"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wind" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zSI-Py-2BP">
-                                                <rect key="frame" x="323.66666666666663" y="0.0" width="39.333333333333314" height="20.333333333333332"/>
+                                                <rect key="frame" x="323.66666666666674" y="0.0" width="39.333333333333314" height="20.333333333333332"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -238,10 +238,10 @@
                                     <constraint firstItem="SZb-cZ-0RO" firstAttribute="leading" secondItem="INW-BD-neN" secondAttribute="leadingMargin" id="Hkq-nH-g39"/>
                                 </constraints>
                             </stackView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BFj-8e-9Ty">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BFj-8e-9Ty">
                                 <rect key="frame" x="0.0" y="475" width="430" height="128"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jrd-N9-Jj6">
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jrd-N9-Jj6">
                                         <rect key="frame" x="0.0" y="0.0" width="430" height="128"/>
                                     </stackView>
                                 </subviews>
@@ -250,7 +250,7 @@
                                     <constraint firstItem="BoW-rK-dx4" firstAttribute="trailing" secondItem="Jrd-N9-Jj6" secondAttribute="trailing" constant="-430" id="A09-6b-33w"/>
                                     <constraint firstAttribute="bottom" secondItem="Jrd-N9-Jj6" secondAttribute="bottom" id="U46-Zs-QX5"/>
                                     <constraint firstItem="Jrd-N9-Jj6" firstAttribute="top" secondItem="pDP-eu-iAY" secondAttribute="top" id="eWb-re-1pj"/>
-                                    <constraint firstItem="Jrd-N9-Jj6" firstAttribute="centerX" secondItem="BFj-8e-9Ty" secondAttribute="centerX" id="gTV-Pk-P88"/>
+                                    <constraint firstItem="Jrd-N9-Jj6" firstAttribute="trailing" secondItem="BFj-8e-9Ty" secondAttribute="centerX" id="gTV-Pk-P88"/>
                                     <constraint firstItem="pDP-eu-iAY" firstAttribute="bottom" secondItem="Jrd-N9-Jj6" secondAttribute="bottom" id="rYh-U6-zJA"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="BoW-rK-dx4"/>
@@ -519,7 +519,7 @@
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
