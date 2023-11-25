@@ -87,11 +87,11 @@
                                     </imageView>
                                 </subviews>
                             </stackView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XrX-Fc-GT3">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XrX-Fc-GT3">
                                 <rect key="frame" x="0.0" y="630" width="430" height="128"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0dp-xx-4Wf">
-                                        <rect key="frame" x="0.0" y="0.0" width="430" height="128"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0dp-xx-4Wf">
+                                        <rect key="frame" x="0.0" y="0.0" width="215" height="128"/>
                                     </stackView>
                                 </subviews>
                                 <constraints>
@@ -100,7 +100,7 @@
                                     <constraint firstItem="0dp-xx-4Wf" firstAttribute="centerY" secondItem="XrX-Fc-GT3" secondAttribute="centerY" id="W42-9v-ycp"/>
                                     <constraint firstItem="0dp-xx-4Wf" firstAttribute="leading" secondItem="48k-pV-EAH" secondAttribute="leading" id="XKv-2F-E1j"/>
                                     <constraint firstAttribute="bottom" secondItem="0dp-xx-4Wf" secondAttribute="bottom" id="ZKA-fz-b7N"/>
-                                    <constraint firstItem="0dp-xx-4Wf" firstAttribute="centerX" secondItem="XrX-Fc-GT3" secondAttribute="centerX" id="bj3-lT-q7R"/>
+                                    <constraint firstItem="0dp-xx-4Wf" firstAttribute="leading" secondItem="XrX-Fc-GT3" secondAttribute="centerX" id="bj3-lT-q7R"/>
                                     <constraint firstItem="48k-pV-EAH" firstAttribute="trailing" secondItem="0dp-xx-4Wf" secondAttribute="trailing" id="ebA-Qv-2Nf"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="48k-pV-EAH"/>
