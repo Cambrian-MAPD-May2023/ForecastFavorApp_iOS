@@ -23,6 +23,7 @@
 		B186DE402AFC310300ACF918 /* CacheEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = B186DE3F2AFC310300ACF918 /* CacheEntry.swift */; };
 		B186DE422AFC33FE00ACF918 /* WeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B186DE412AFC33FE00ACF918 /* WeatherAPI.swift */; };
 		B1D31ABE2AFC53AA00E09634 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D31ABD2AFC53AA00E09634 /* TodayViewController.swift */; };
+		B1F67EE32B14E470004AC7B8 /* UserPrerencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F67EE22B14E470004AC7B8 /* UserPrerencesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		B186DE3F2AFC310300ACF918 /* CacheEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheEntry.swift; sourceTree = "<group>"; };
 		B186DE412AFC33FE00ACF918 /* WeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPI.swift; sourceTree = "<group>"; };
 		B1D31ABD2AFC53AA00E09634 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		B1F67EE22B14E470004AC7B8 /* UserPrerencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPrerencesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				958469772AFBF7A500808FFC /* AppDelegate.swift */,
 				958469792AFBF7A500808FFC /* SceneDelegate.swift */,
 				9584697D2AFBF7A500808FFC /* Main.storyboard */,
+				B1F67EE22B14E470004AC7B8 /* UserPrerencesViewController.swift */,
 				B1D31ABD2AFC53AA00E09634 /* TodayViewController.swift */,
 				B181EC842B05A5A300721254 /* TomorrowViewController.swift */,
 				958469832AFBF7A700808FFC /* Assets.xcassets */,
@@ -287,6 +290,7 @@
 				B181EC872B05B68900721254 /* ThreeDayForecastViewController.swift in Sources */,
 				B1D31ABE2AFC53AA00E09634 /* TodayViewController.swift in Sources */,
 				B186DE422AFC33FE00ACF918 /* WeatherAPI.swift in Sources */,
+				B1F67EE32B14E470004AC7B8 /* UserPrerencesViewController.swift in Sources */,
 				9584697A2AFBF7A500808FFC /* SceneDelegate.swift in Sources */,
 				958469822AFBF7A500808FFC /* ForecastFavorApp_iOS.xcdatamodeld in Sources */,
 			);
