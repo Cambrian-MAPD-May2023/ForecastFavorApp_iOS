@@ -6,9 +6,10 @@
 //
 
 import UIKit
-
+// TodayViewController is responsible for displaying the current weather and hourly forecast.
 class TodayViewController: UIViewController, UISearchBarDelegate {
-    
+    // MARK: - Outlets
+    // Outlets connect UI elements from the storyboard to the code.
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var conditionLabel: UILabel!
@@ -19,6 +20,9 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var hourlyStackView: UIStackView!
     @IBOutlet weak var hourlyScrollView: UIScrollView!
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    // MARK: - View Lifecycle
+        // viewDidLoad is called after the view controller's view is loaded into memory.
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self // Set the search bar delegate
@@ -29,7 +33,8 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
         pressureLabel.text = "Pressure: "
     }
     
-    // UISearchBarDelegate method to handle the search action
+    // MARK: - UISearchBarDelegate
+    // searchBarSearchButtonClicked is called when the user taps the search button on the keyboard.
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder() // Dismiss the keyboard
         
@@ -40,7 +45,8 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
         
         fetchWeatherForCity(cityName)
     }
-    
+    // MARK: - Data Fetching
+    // fetchWeatherForCity initiates fetching of weather and forecast data for a given city.
     private func fetchWeatherForCity(_ cityName: String) {
         Task {
             do {
@@ -56,7 +62,8 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
             }
         }
     }
-    // This should be marked with @MainActor if not already, to ensure it runs on the main thread.
+    // MARK: - UI Updates
+       // updateUI updates the UI with the current weather data.
     @MainActor
     private func updateUI(with weatherData: WeatherResponse) {
         Task {
@@ -83,6 +90,7 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
             }
         }
     }
+    // updateHourlyForecast updates the hourly forecast stack view with new data.
         @MainActor
         private func updateHourlyForecast(weatherData: [HourlyForecast]) {
             // Clean up any existing views in the stack view
@@ -93,7 +101,7 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
                 hourlyStackView.addArrangedSubview(hourView)
             }
         }
-        
+    // createHourlyView creates a view representing a single hour's forecast.
         private func createHourlyView(for hour: HourlyForecast) -> UIView {
             let hourView = UIView()
             hourView.translatesAutoresizingMaskIntoConstraints = false
@@ -157,9 +165,9 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
             
             return hourView
         }
-        
+    // formatTime converts a time string to the desired format for display.
         private func formatTime(_ timeString: String) -> String {
-            // Assuming the time string is in the format "yyyy-MM-dd HH:mm"
+            
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
             if let date = dateFormatter.date(from: timeString) {
