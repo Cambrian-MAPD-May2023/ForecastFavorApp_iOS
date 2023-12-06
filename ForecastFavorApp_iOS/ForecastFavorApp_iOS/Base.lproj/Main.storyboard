@@ -580,16 +580,25 @@
                     <connections>
                         <outlet property="dayOneConditionLabel" destination="8Qz-hC-D8R" id="Z6Y-ZS-f1X"/>
                         <outlet property="dayOneDateLabel" destination="fye-i2-CMk" id="IwX-HT-isO"/>
+                        <outlet property="dayOneHumidityLabel" destination="F2m-Hr-UfZ" id="zQw-qQ-i5D"/>
                         <outlet property="dayOneImageView" destination="ofJ-n1-zk6" id="hsB-8s-tHK"/>
+                        <outlet property="dayOnePressureLabel" destination="4dF-6Q-h1x" id="Tp2-ib-McR"/>
                         <outlet property="dayOneTemperatureLabel" destination="4Km-hf-IEw" id="c6M-hm-VbX"/>
+                        <outlet property="dayOneWindLabel" destination="EhW-bk-koR" id="1DC-Md-cQQ"/>
                         <outlet property="dayThreeConditionLabel" destination="6bu-HJ-h1G" id="urh-6m-3on"/>
                         <outlet property="dayThreeDateLabel" destination="s8r-mD-Id6" id="cQE-Q3-wFh"/>
+                        <outlet property="dayThreeHumidityLabel" destination="Ikr-i6-poS" id="Hs6-aL-fGA"/>
                         <outlet property="dayThreeImageView" destination="Pox-ei-5tk" id="YbA-CW-Iiz"/>
+                        <outlet property="dayThreePressureLabel" destination="5YR-dG-Wa8" id="Rc1-ma-OEr"/>
                         <outlet property="dayThreeTemperatureLabel" destination="Ij2-L7-V3a" id="4s2-7a-Xqu"/>
+                        <outlet property="dayThreeWindLabel" destination="9nx-WM-U9z" id="mOb-BY-8bG"/>
                         <outlet property="dayTwoConditionLabel" destination="Aga-5D-Clr" id="TjV-BL-u7Z"/>
                         <outlet property="dayTwoDateLabel" destination="CMP-q8-DdK" id="Nd3-eu-MGC"/>
+                        <outlet property="dayTwoHumidityLabel" destination="orc-nY-rrY" id="KrS-mb-uUO"/>
                         <outlet property="dayTwoImageView" destination="sf0-Yl-nNI" id="m58-op-S2o"/>
+                        <outlet property="dayTwoPressureLabel" destination="Kie-tc-Wff" id="A0O-D3-ju5"/>
                         <outlet property="dayTwoTemperatureLabel" destination="AY4-Ce-5mD" id="FNR-4n-nxv"/>
+                        <outlet property="dayTwoWindLabel" destination="KHt-yD-bVe" id="q3p-hc-ujR"/>
                         <outlet property="searchBar" destination="EOz-9n-kZO" id="tbc-9h-483"/>
                     </connections>
                 </viewController>

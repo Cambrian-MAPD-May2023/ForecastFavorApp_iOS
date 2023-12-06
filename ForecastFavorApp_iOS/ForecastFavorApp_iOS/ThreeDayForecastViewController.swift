@@ -12,14 +12,24 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var dayOneImageView: UIImageView!
     @IBOutlet weak var dayOneTemperatureLabel: UILabel!
     @IBOutlet weak var dayOneConditionLabel: UILabel!
-
+    @IBOutlet weak var dayOnePressureLabel: UILabel!
+    @IBOutlet weak var dayOneHumidityLabel: UILabel!
+    @IBOutlet weak var dayOneWindLabel: UILabel!
+    
     @IBOutlet weak var dayTwoImageView: UIImageView!
     @IBOutlet weak var dayTwoTemperatureLabel: UILabel!
     @IBOutlet weak var dayTwoConditionLabel: UILabel!
-
+    @IBOutlet weak var dayTwoPressureLabel: UILabel!
+    @IBOutlet weak var dayTwoHumidityLabel: UILabel!
+    @IBOutlet weak var dayTwoWindLabel: UILabel!
+    
     @IBOutlet weak var dayThreeImageView: UIImageView!
     @IBOutlet weak var dayThreeTemperatureLabel: UILabel!
     @IBOutlet weak var dayThreeConditionLabel: UILabel!
+    @IBOutlet weak var dayThreePressureLabel: UILabel!
+    @IBOutlet weak var dayThreeHumidityLabel: UILabel!
+    @IBOutlet weak var dayThreeWindLabel: UILabel!
+    
     
     @IBOutlet weak var dayOneDateLabel: UILabel!
     @IBOutlet weak var dayTwoDateLabel: UILabel!
