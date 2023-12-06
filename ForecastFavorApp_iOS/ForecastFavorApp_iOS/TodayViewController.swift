@@ -31,6 +31,7 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
         humidityLabel.text = "Humidity: "
         windLabel.text = "Wind: "
         pressureLabel.text = "Pressure: "
+        fetchWeatherForCity("Sudbury")
     }
     
     // MARK: - UISearchBarDelegate

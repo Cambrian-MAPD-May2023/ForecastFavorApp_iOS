@@ -27,7 +27,7 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
         conditionLabel.text = "Condition: "
         temperatureLabel.text = "Current temp: "
         precipitationLabel.text = "Precipitation: "
-        // Set initial states for your labels, image views, etc.
+        fetchWeatherForCity("Sudbury")
     }
     // This method is called when the user taps the search button on the keyboard
        func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

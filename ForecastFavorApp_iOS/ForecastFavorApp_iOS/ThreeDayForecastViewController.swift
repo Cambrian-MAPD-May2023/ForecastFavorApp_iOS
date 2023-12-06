@@ -32,7 +32,7 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
-        // Initial UI setup - clear labels and image views
+        fetchWeatherForCity("Sudbury")
         clearForecastUI()
     }
 
