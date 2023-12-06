@@ -749,7 +749,7 @@
         <!--Notification-->
         <scene sceneID="X5m-iS-dQC">
             <objects>
-                <viewController id="YEx-tD-qy5" sceneMemberID="viewController">
+                <viewController id="YEx-tD-qy5" customClass="NotificationsViewController" customModule="ForecastFavorApp_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hEV-Ex-CaG">
                         <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -775,6 +775,10 @@
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pCk-g2-IGC">
                                                 <rect key="frame" x="287" y="0.0" width="51" height="31"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="storm"/>
+                                                <connections>
+                                                    <action selector="stormSwitchChanged:" destination="YEx-tD-qy5" eventType="valueChanged" id="6At-kn-T5O"/>
+                                                </connections>
                                             </switch>
                                         </subviews>
                                     </stackView>
@@ -789,6 +793,7 @@
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M00-Wt-cBU">
                                                 <rect key="frame" x="287" y="0.0" width="51" height="31"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="sunny"/>
                                             </switch>
                                         </subviews>
                                     </stackView>
@@ -803,6 +808,7 @@
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="h2f-cS-p9q">
                                                 <rect key="frame" x="287" y="0.0" width="51" height="31"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="rainy"/>
                                             </switch>
                                         </subviews>
                                     </stackView>
@@ -817,6 +823,7 @@
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lbu-fi-y2t">
                                                 <rect key="frame" x="287" y="0.0" width="51" height="31"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="snowy"/>
                                             </switch>
                                         </subviews>
                                     </stackView>
@@ -831,6 +838,7 @@
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Yx-yb-uuw">
                                                 <rect key="frame" x="287" y="0.0" width="51" height="31"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="cloudy"/>
                                             </switch>
                                         </subviews>
                                     </stackView>
@@ -849,6 +857,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Notification" image="bell.circle" catalog="system" id="y85-Eh-V7O"/>
+                    <connections>
+                        <outlet property="stormSwitch" destination="pCk-g2-IGC" id="siw-CW-IkE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LdO-so-9HS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -870,7 +881,7 @@
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
