@@ -82,7 +82,7 @@ class NotificationsViewController: UIViewController {
         content.body = "Best to stay indoors today. It's a great opportunity to catch up on a book or binge-watch your favorite show."
         content.sound = .default
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3600, repeats: true)
         let request = UNNotificationRequest(identifier: "storm", content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in
@@ -101,7 +101,7 @@ class NotificationsViewController: UIViewController {
         content.body = "It's a perfect day for a picnic or a leisurely walk in the park. Don't forget your sunscreen!"
         content.sound = .default
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3600, repeats: true)
         let request = UNNotificationRequest(identifier: "sunny", content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in
@@ -120,7 +120,7 @@ class NotificationsViewController: UIViewController {
         content.body = "It looks like it's time to grab your umbrella. A cozy coffee shop visit might be just the thing!"
         content.sound = .default
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3600, repeats: true)
         let request = UNNotificationRequest(identifier: "rainy", content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in
@@ -139,7 +139,7 @@ class NotificationsViewController: UIViewController {
         content.body = "The world is your snow globe! A good day for building a snowman or enjoying hot chocolate by the fire."
         content.sound = .default
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3600, repeats: true)
         let request = UNNotificationRequest(identifier: "snowy", content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in
@@ -158,7 +158,7 @@ class NotificationsViewController: UIViewController {
         content.body = "A moody sky sets the stage. Perfect for a trip to the museum or a relaxed day at home."
         content.sound = .default
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3600, repeats: true)
         let request = UNNotificationRequest(identifier: "cloudy", content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request) { error in
