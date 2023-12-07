@@ -90,6 +90,7 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
                 updateHourlyForecast(weatherData: hourlyData)
             }
         }
+        WeatherDataManager.shared.currentConditionText = "\(weatherData.current.condition.text)"
     }
     // updateHourlyForecast updates the hourly forecast stack view with new data.
         @MainActor
