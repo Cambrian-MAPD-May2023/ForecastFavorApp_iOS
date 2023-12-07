@@ -20,6 +20,7 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var hourlyStackView: UIStackView!
     @IBOutlet weak var hourlyScrollView: UIScrollView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var customForecastTextView: UITextView!
     
     // MARK: - View Lifecycle
         // viewDidLoad is called after the view controller's view is loaded into memory.
@@ -32,6 +33,29 @@ class TodayViewController: UIViewController, UISearchBarDelegate {
         windLabel.text = "Wind: "
         pressureLabel.text = "Pressure: "
         fetchWeatherForCity("Sudbury")
+        if let currentConditionText = WeatherDataManager.shared.currentConditionText,
+                   currentConditionText.range(of: "storm", options: .caseInsensitive) != nil {
+                    
+                    customForecastTextView.text = "Forecast:\n\nStorm Brewing!\n\nBest to stay indoors today. It's a great opportunity to catch up on a book or binge-watch your favorite show."
+
+                } else if let currentConditionText = WeatherDataManager.shared.currentConditionText,
+                          currentConditionText.lowercased().contains("sun") {
+                    
+                    customForecastTextView.text = "Forecast:\n\nGlorious Sunshine Awaits!\n\nIt's a perfect day for a picnic or a leisurely walk in the park. Don't forget your sunscreen!"
+
+                } else if let currentConditionText = WeatherDataManager.shared.currentConditionText,
+                          currentConditionText.lowercased().contains("rain") {
+                    
+                    customForecastTextView.text = "Forecast:\n\nRainy Day Alert!\n\nIt looks like it's time to grab your umbrella. A cozy coffee shop visit might be just the thing!"
+
+                } else if let currentConditionText = WeatherDataManager.shared.currentConditionText,
+                          currentConditionText.lowercased().contains("snow") {
+                    
+                    customForecastTextView.text = "Forecast:\n\nSnowflakes Are Falling!\n\nThe world is your snow globe! A good day for building a snowman or enjoying hot chocolate by the fire."
+
+                } else {
+                    customForecastTextView.text = "Forecast:\n\nOvercast Skies Today!\n\nA moody sky sets the stage. Perfect for a trip to the museum or a relaxed day at home."
+                }
     }
     
     // MARK: - UISearchBarDelegate
