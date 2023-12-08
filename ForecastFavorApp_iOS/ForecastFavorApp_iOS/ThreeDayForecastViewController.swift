@@ -12,21 +12,21 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var dayOneImageView: UIImageView!
     @IBOutlet weak var dayOneTemperatureLabel: UILabel!
     @IBOutlet weak var dayOneConditionLabel: UILabel!
-    @IBOutlet weak var dayOnePressureLabel: UILabel!
+    @IBOutlet weak var dayOneRainChanceLabel: UILabel!
     @IBOutlet weak var dayOneHumidityLabel: UILabel!
     @IBOutlet weak var dayOneWindLabel: UILabel!
     
     @IBOutlet weak var dayTwoImageView: UIImageView!
     @IBOutlet weak var dayTwoTemperatureLabel: UILabel!
     @IBOutlet weak var dayTwoConditionLabel: UILabel!
-    @IBOutlet weak var dayTwoPressureLabel: UILabel!
+    @IBOutlet weak var dayTwoRainChanceLabel: UILabel!
     @IBOutlet weak var dayTwoHumidityLabel: UILabel!
     @IBOutlet weak var dayTwoWindLabel: UILabel!
     
     @IBOutlet weak var dayThreeImageView: UIImageView!
     @IBOutlet weak var dayThreeTemperatureLabel: UILabel!
     @IBOutlet weak var dayThreeConditionLabel: UILabel!
-    @IBOutlet weak var dayThreePressureLabel: UILabel!
+    @IBOutlet weak var dayThreeRainChanceLabel: UILabel!
     @IBOutlet weak var dayThreeHumidityLabel: UILabel!
     @IBOutlet weak var dayThreeWindLabel: UILabel!
     
@@ -49,7 +49,12 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
     private func clearForecastUI() {
         // Set initial states for your labels and image views
         let labels = [dayOneTemperatureLabel, dayTwoTemperatureLabel, dayThreeTemperatureLabel,
-                      dayOneConditionLabel, dayTwoConditionLabel, dayThreeConditionLabel, dayOneDateLabel, dayTwoDateLabel, dayThreeDateLabel]
+                      dayOneConditionLabel, dayTwoConditionLabel, dayThreeConditionLabel,
+                      dayOneDateLabel, dayTwoDateLabel, dayThreeDateLabel,
+                      dayOneRainChanceLabel, dayOneHumidityLabel,
+                      dayTwoRainChanceLabel, dayTwoHumidityLabel,
+                      dayThreeRainChanceLabel, dayThreeHumidityLabel]
+        
         for label in labels {
             label?.text = ""
         }
@@ -60,9 +65,8 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
         }
     }
 
+
     
-
-
     @MainActor
     private func updateUI(with forecastDays: [ForecastdayContainer]) {
         // Assuming forecastDays has at least 3 elements
@@ -71,19 +75,27 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
                         imageView: dayOneImageView,
                         temperatureLabel: dayOneTemperatureLabel,
                         conditionLabel: dayOneConditionLabel,
-                        dateLabel: dayOneDateLabel)
-            
+                        dateLabel: dayOneDateLabel,
+                        humidityLabel: dayOneHumidityLabel,
+                        maxWindLabel: dayOneWindLabel,
+                        rainChanceLabel: dayOneRainChanceLabel)
             updateDayUI(day: forecastDays[1],
                         imageView: dayTwoImageView,
                         temperatureLabel: dayTwoTemperatureLabel,
                         conditionLabel: dayTwoConditionLabel,
-                        dateLabel: dayTwoDateLabel)
-            
+                        dateLabel: dayTwoDateLabel,
+                        humidityLabel: dayTwoHumidityLabel,
+                        maxWindLabel: dayTwoWindLabel,
+                        rainChanceLabel: dayTwoRainChanceLabel)
+
             updateDayUI(day: forecastDays[2],
                         imageView: dayThreeImageView,
                         temperatureLabel: dayThreeTemperatureLabel,
                         conditionLabel: dayThreeConditionLabel,
-                        dateLabel: dayThreeDateLabel)
+                        dateLabel: dayThreeDateLabel,
+                        humidityLabel: dayThreeHumidityLabel,
+                        maxWindLabel: dayThreeWindLabel,
+                        rainChanceLabel: dayThreeRainChanceLabel)
         }
     }
 
@@ -91,21 +103,30 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
                              imageView: UIImageView,
                              temperatureLabel: UILabel,
                              conditionLabel: UILabel,
-                             dateLabel: UILabel) {
+                             dateLabel: UILabel,
+                             humidityLabel: UILabel,
+                             maxWindLabel: UILabel,
+                             rainChanceLabel: UILabel) {
         let minTemp = day.day.mintemp_c
         let maxTemp = day.day.maxtemp_c
         let conditionText = day.day.condition.text
         let iconURL = day.day.condition.icon
         let dateText = day.date
-        
+        let humidity = day.day.avghumidity
+        let maxWindSpeed = day.day.maxwind_kph
+        let dailyChanceOfRain = day.day.daily_chance_of_rain
+
         // Update labels
         temperatureLabel.text = "High: \(maxTemp)°C, Low: \(minTemp)°C"
         conditionLabel.text = conditionText
         if let dayOfWeek = dayOfWeek(from: dateText) {
             dateLabel.text = dayOfWeek
         }
+        humidityLabel.text = "\(humidity)%"
+        maxWindLabel.text = "\(maxWindSpeed) kph"
+        rainChanceLabel.text = "\(dailyChanceOfRain)%"
 
-        // Fetch and update image
+        // Fetch and update image (same as before)
         Task {
             do {
                 let imageData = try await WeatherAPI_Helper.fetchImageData(from: "https:\(iconURL)")
@@ -118,6 +139,7 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
             }
         }
     }
+
     
     // MARK: - Date Formatting Utility
         func dayOfWeek(from dateString: String) -> String? {
