@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import CoreLocation
 
-class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
+class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate, CLLocationManagerDelegate {
     // Outlets for your UI components, assuming one set of labels for each day
     @IBOutlet weak var dayOneImageView: UIImageView!
     @IBOutlet weak var dayOneTemperatureLabel: UILabel!
@@ -34,18 +35,20 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
     @IBOutlet weak var dayOneDateLabel: UILabel!
     @IBOutlet weak var dayTwoDateLabel: UILabel!
     @IBOutlet weak var dayThreeDateLabel: UILabel!
-
-
+    
+    
     @IBOutlet weak var searchBar: UISearchBar!
-    // Additional outlets as needed...
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
-        fetchWeatherForCity("Sudbury")
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
         clearForecastUI()
     }
-
+    
     private func clearForecastUI() {
         // Set initial states for your labels and image views
         let labels = [dayOneTemperatureLabel, dayTwoTemperatureLabel, dayThreeTemperatureLabel,
@@ -64,8 +67,24 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
             imageView?.image = nil
         }
     }
-
-
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        let geocoder = CLGeocoder()
+        
+        geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+            if let cityName = placemarks?.first?.locality {
+                self.fetchWeatherForCity(cityName)
+            }
+        }
+    }
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("Authorization Status:", status.rawValue)
+        
+        if status == .denied || status == .restricted {
+            // Handle denied or restricted authorization
+        }
+    }
+    
     
     @MainActor
     private func updateUI(with forecastDays: [ForecastdayContainer]) {
@@ -87,7 +106,7 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
                         humidityLabel: dayTwoHumidityLabel,
                         maxWindLabel: dayTwoWindLabel,
                         rainChanceLabel: dayTwoRainChanceLabel)
-
+            
             updateDayUI(day: forecastDays[2],
                         imageView: dayThreeImageView,
                         temperatureLabel: dayThreeTemperatureLabel,
@@ -98,7 +117,7 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
                         rainChanceLabel: dayThreeRainChanceLabel)
         }
     }
-
+    
     private func updateDayUI(day: ForecastdayContainer,
                              imageView: UIImageView,
                              temperatureLabel: UILabel,
@@ -115,7 +134,7 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
         let humidity = day.day.avghumidity
         let maxWindSpeed = day.day.maxwind_kph
         let dailyChanceOfRain = day.day.daily_chance_of_rain
-
+        
         // Update labels
         temperatureLabel.text = "High: \(maxTemp)°C, Low: \(minTemp)°C"
         conditionLabel.text = conditionText
@@ -125,7 +144,7 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
         humidityLabel.text = "\(humidity)%"
         maxWindLabel.text = "\(maxWindSpeed) kph"
         rainChanceLabel.text = "\(dailyChanceOfRain)%"
-
+        
         // Fetch and update image (same as before)
         Task {
             do {
@@ -139,43 +158,43 @@ class ThreeDayForecastViewController: UIViewController, UISearchBarDelegate {
             }
         }
     }
-
+    
     
     // MARK: - Date Formatting Utility
-        func dayOfWeek(from dateString: String) -> String? {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd" // Adjust the date format to the format provided by your API
-            
-            if let date = dateFormatter.date(from: dateString) {
-                dateFormatter.dateFormat = "EEEE" // Format to get the day of the week
-                return dateFormatter.string(from: date)
-            }
-            return nil
+    func dayOfWeek(from dateString: String) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd" // Adjust the date format to the format provided by your API
+        
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.dateFormat = "EEEE" // Format to get the day of the week
+            return dateFormatter.string(from: date)
         }
+        return nil
+    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-            searchBar.resignFirstResponder() // Hide the keyboard
-            
-            guard let cityName = searchBar.text, !cityName.isEmpty else {
-                // Optionally, inform the user that the search bar is empty
-                return
-            }
-            
-            fetchWeatherForCity(cityName)
+        searchBar.resignFirstResponder() // Hide the keyboard
+        
+        guard let cityName = searchBar.text, !cityName.isEmpty else {
+            // Optionally, inform the user that the search bar is empty
+            return
         }
         
-        private func fetchWeatherForCity(_ cityName: String) {
-            Task {
-                do {
-                    let forecastData = try await WeatherAPI_Helper.fetchForecastData(cityName: cityName, days: 3)
-                    if let forecastDays = forecastData.forecast?.forecastday {
-                        updateUI(with: forecastDays)
-                    }
-                } catch {
-                    // Handle errors, perhaps by showing an alert with the error description
-                    print("Error fetching forecast: \(error.localizedDescription)")
+        fetchWeatherForCity(cityName)
+    }
+    
+    private func fetchWeatherForCity(_ cityName: String) {
+        Task {
+            do {
+                let forecastData = try await WeatherAPI_Helper.fetchForecastData(cityName: cityName, days: 3)
+                if let forecastDays = forecastData.forecast?.forecastday {
+                    updateUI(with: forecastDays)
                 }
+            } catch {
+                // Handle errors, perhaps by showing an alert with the error description
+                print("Error fetching forecast: \(error.localizedDescription)")
             }
         }
+    }
 }
 

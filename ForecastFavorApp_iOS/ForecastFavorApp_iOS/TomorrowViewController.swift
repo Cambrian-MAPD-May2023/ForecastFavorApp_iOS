@@ -6,11 +6,11 @@
 //
 
 import UIKit
-
-class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
-
+import CoreLocation
+class TomorrowViewController: UIViewController,  UISearchBarDelegate, CLLocationManagerDelegate  {
+    
     // Outlets for your UI components
-
+    
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var conditionImageView: UIImageView!
@@ -19,48 +19,67 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
     @IBOutlet weak var precipitationLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var hourlyStackView: UIStackView!
-    // ... other labels for additional forecast details
-
+    let locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self // Set the search bar delegate
         conditionLabel.text = "Condition: "
         temperatureLabel.text = "Current temp: "
         precipitationLabel.text = "Precipitation: "
-        fetchWeatherForCity("Sudbury")
-    }
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()    }
     // This method is called when the user taps the search button on the keyboard
-       func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-           searchBar.resignFirstResponder() // Hide the keyboard
-
-           guard let cityName = searchBar.text, !cityName.isEmpty else {
-               // Optionally, inform the user that the search bar is empty
-               return
-           }
-
-           fetchWeatherForCity(cityName)
-       }
-
-       private func fetchWeatherForCity(_ cityName: String) {
-           Task {
-               do {
-                   let forecastData = try await WeatherAPI_Helper.fetchForecastData(cityName: cityName, days: 2)
-                   // Index should be 0 for the first element which is tomorrow's forecast
-                   if let tomorrowForecast = forecastData.forecast?.forecastday[1] {
-                       await updateUI(with: tomorrowForecast)
-                   }
-               } catch {
-                   // Handle errors, perhaps by showing an alert with the error description
-                   print("Error fetching forecast: \(error.localizedDescription)")
-               }
-           }
-       }
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder() // Hide the keyboard
+        
+        guard let cityName = searchBar.text, !cityName.isEmpty else {
+            // Optionally, inform the user that the search bar is empty
+            return
+        }
+        
+        fetchWeatherForCity(cityName)
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        let geocoder = CLGeocoder()
+        
+        geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+            if let cityName = placemarks?.first?.locality {
+                self.fetchWeatherForCity(cityName)
+            }
+        }
+    }
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("Authorization Status:", status.rawValue)
+        
+        if status == .denied || status == .restricted {
+            // Handle denied or restricted authorization
+        }
+    }
+    
+    private func fetchWeatherForCity(_ cityName: String) {
+        Task {
+            do {
+                let forecastData = try await WeatherAPI_Helper.fetchForecastData(cityName: cityName, days: 2)
+                // Index should be 0 for the first element which is tomorrow's forecast
+                if let tomorrowForecast = forecastData.forecast?.forecastday[1] {
+                    await updateUI(with: tomorrowForecast, cityName: cityName)
+                }
+            } catch {
+                // Handle errors, perhaps by showing an alert with the error description
+                print("Error fetching forecast: \(error.localizedDescription)")
+            }
+        }
+    }
     // Ensure updateUI is marked as async to perform async operations
     @MainActor
-    private func updateUI(with forecastDay: ForecastdayContainer) async {
+    private func updateUI(with forecastDay: ForecastdayContainer, cityName: String) async {
         // Update the UI with the details from forecastDay
         let condition = forecastDay.day.condition
-        cityLabel.text = searchBar.text
+        let displayCityName = cityName.isEmpty ? searchBar.text : cityName
+        cityLabel.text = displayCityName
         dateLabel.text = forecastDay.date
         conditionLabel.text = "\(condition.text)"
         temperatureLabel.text = "\(forecastDay.day.maxtemp_c)°C ↑,\(forecastDay.day.mintemp_c)°C ↓"
@@ -82,16 +101,16 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
     }
     
     @MainActor
-       private func updateHourlyForecast(weatherData: [HourlyForecast]) {
-           // Remove all existing hourly views
-           hourlyStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
-
-           // Add new hourly views
-           for hour in weatherData {
-               let hourView = createHourlyView(for: hour)
-               hourlyStackView.addArrangedSubview(hourView)
-           }
-       }
+    private func updateHourlyForecast(weatherData: [HourlyForecast]) {
+        // Remove all existing hourly views
+        hourlyStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        // Add new hourly views
+        for hour in weatherData {
+            let hourView = createHourlyView(for: hour)
+            hourlyStackView.addArrangedSubview(hourView)
+        }
+    }
     
     private func createHourlyView(for hour: HourlyForecast) -> UIView {
         let hourView = UIView()
@@ -128,9 +147,9 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
         verticalStackView.addArrangedSubview(rainProbLabel)
         
         // Assuming you want each hourView to be 80 points wide:
-           let hourViewWidth = 80
+        let hourViewWidth = 80
         hourView.widthAnchor.constraint(equalToConstant: CGFloat(hourViewWidth)).isActive = true
-
+        
         // Add the vertical stack view to the hourView
         hourView.addSubview(verticalStackView)
         
@@ -170,8 +189,8 @@ class TomorrowViewController: UIViewController,  UISearchBarDelegate  {
     }
     
     
-   
     
-  
+    
+    
     
 }
