@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 // UserPreferencesViewController manages the UI for setting and saving user preferences.
 class UserPreferencesViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
@@ -29,14 +30,18 @@ class UserPreferencesViewController: UIViewController, UIPickerViewDelegate, UIP
     // Placeholder for user data that will be loaded
     var defaultUserData: [String: Any]?
     
+    // CoreData properties
+       var managedObjectContext: NSManagedObjectContext!
+    
     // Called after the controller's view is loaded into memory.
     override func viewDidLoad() {
-        super.viewDidLoad()
-        setupPickers()
-        loadDefaultUserData()
-   
-        
-    }
+           super.viewDidLoad()
+           setupPickers()
+           // Initialize the managedObjectContext
+           let appDelegate = UIApplication.shared.delegate as! AppDelegate
+           managedObjectContext = appDelegate.persistentContainer.viewContext
+           loadDefaultUserData()
+       }
     // Sets up the picker views' delegates and data sources.
     func setupPickers() {
         unitsPickerView.delegate = self
@@ -116,28 +121,45 @@ class UserPreferencesViewController: UIViewController, UIPickerViewDelegate, UIP
         self.present(pickerAlert, animated: true)
     }
     // Saves the user preferences when the save button is tapped.
+    
     @IBAction func saveButtonTapped(_ sender: UIButton) {
+            // Validate inputs...
+        
         guard let username = usernameTextField.text, !username.isEmpty else {
-            // Show an alert if the username is empty
-            let alert = UIAlertController(title: "Missing Username", message: "Please enter a username to save your preferences.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alert, animated: true)
-            return
+                presentAlert(title: "Input Error", message: "Username cannot be empty.")
+                return
+            }
+
+            let locations = [locationTextField1.text, locationTextField2.text, locationTextField3.text].compactMap { $0 }.filter { !$0.isEmpty }
+            if locations.isEmpty {
+                presentAlert(title: "Input Error", message: "Please enter at least one location.")
+                return
+            }
+
+            // Access the CoreData managedObjectContext from the AppDelegate
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
+            let managedObjectContext = appDelegate.persistentContainer.viewContext
+
+            // Create a UserPreference managed object
+            if let userPreference = NSEntityDescription.insertNewObject(forEntityName: "UserPreference", into: managedObjectContext) as? UserPreference {
+                userPreference.username = usernameTextField.text
+                userPreference.unit = unitSelectionButton.title(for: .normal)
+                userPreference.theme = themeSelectionButton.title(for: .normal)
+                userPreference.location1 = locationTextField1.text
+                userPreference.location2 = locationTextField2.text
+                userPreference.location3 = locationTextField3.text
+
+                do {
+                    // Save the changes to CoreData
+                    try managedObjectContext.save()
+                    presentAlert(title: "Success", message: "Preferences saved successfully.")
+                } catch {
+                    presentAlert(title: "Save Error", message: "There was a problem saving your preferences. Please try again.")
+                }
+            }
         }
-        
-        let selectedUnit = unitSelectionButton.title(for: .normal) ?? ""
-        let selectedTheme = themeSelectionButton.title(for: .normal) ?? ""
-        let locations = [locationTextField1.text ?? "", locationTextField2.text ?? "", locationTextField3.text ?? ""]
-
-        let userPreferences: [String: Any] = ["unit": selectedUnit, "theme": selectedTheme, "locations": locations]
-        UserDefaults.standard.set(userPreferences, forKey: username)
-        
-        // Confirm to the user that the preferences have been saved
-        let alertController = UIAlertController(title: "Success", message: "Preferences saved!", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default))
-        self.present(alertController, animated: true)
-
-    }
 
     // MARK: - UIPickerViewDelegate & DataSource
     // Number of components for the picker view.
@@ -195,21 +217,41 @@ class UserPreferencesViewController: UIViewController, UIPickerViewDelegate, UIP
     // MARK: - Load Data and Alert Presentation methods
     // Loads data for a given username and updates the UI.
     private func loadDataForUser(_ username: String) {
-        if let savedPreferences = UserDefaults.standard.dictionary(forKey: username) {
-            // Update the UI with these preferences
-            if let unit = savedPreferences["unit"] as? String {
-                unitSelectionButton.setTitle(unit, for: .normal)
+        // Access the CoreData managedObjectContext from the AppDelegate
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+
+        // Create a fetch request to fetch UserPreference objects based on the username
+        let fetchRequest = NSFetchRequest<UserPreference>(entityName: "UserPreference")
+        fetchRequest.predicate = NSPredicate(format: "username == %@", username)
+
+        do {
+            let userPreferences = try managedObjectContext.fetch(fetchRequest)
+
+            if let userPreference = userPreferences.first {
+                // Update the UI with the fetched preferences
+                if let unit = userPreference.unit {
+                    unitSelectionButton.setTitle(unit, for: .normal)
+                }
+                if let theme = userPreference.theme {
+                    themeSelectionButton.setTitle(theme, for: .normal)
+                }
+                if let location1 = userPreference.location1 {
+                    locationTextField1.text = location1
+                }
+                if let location2 = userPreference.location2 {
+                    locationTextField2.text = location2
+                }
+                if let location3 = userPreference.location3 {
+                    locationTextField3.text = location3
+                }
+            } else {
+                presentAlert(title: "Not Found", message: "No preferences found for the username '\(username)'.")
             }
-            if let theme = savedPreferences["theme"] as? String {
-                themeSelectionButton.setTitle(theme, for: .normal)
-            }
-            if let locations = savedPreferences["locations"] as? [String] {
-                locationTextField1.text = locations.count > 0 ? locations[0] : ""
-                locationTextField2.text = locations.count > 1 ? locations[1] : ""
-                locationTextField3.text = locations.count > 2 ? locations[2] : ""
-            }
-        } else {
-            presentAlert(title: "Not Found", message: "No preferences found for the username '\(username)'.")
+        } catch {
+            presentAlert(title: "Error", message: "Failed to fetch user preferences.")
         }
     }
 

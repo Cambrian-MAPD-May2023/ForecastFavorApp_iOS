@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class NotificationsViewController: UIViewController {
     @IBOutlet weak var stormSwitch: UISwitch!
@@ -14,11 +15,62 @@ class NotificationsViewController: UIViewController {
     @IBOutlet weak var snowySwitch: UISwitch!
     @IBOutlet weak var cloudySwitch: UISwitch!
     
+    // Reference to the managed object context
+        var managedObjectContext: NSManagedObjectContext!
+
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
+           super.viewDidLoad()
+
+           // Access the managed object context from the app delegate
+           let appDelegate = UIApplication.shared.delegate as! AppDelegate
+           managedObjectContext = appDelegate.persistentContainer.viewContext
+           
+           // Load switch states from Core Data
+           loadSwitchStates()
+       }
+    // Load switch states from Core Data
+        func loadSwitchStates() {
+            // Fetch the user preferences entity (replace "UserPreference" with your entity name)
+            let fetchRequest = NSFetchRequest<UserPreference>(entityName: "UserPreference")
+            
+            do {
+                let userPreferences = try managedObjectContext.fetch(fetchRequest)
+                
+                if let userPreference = userPreferences.first {
+                    stormSwitch.isOn = userPreference.isStormEnabled
+                    sunnySwitch.isOn = userPreference.isSunnyEnabled
+                    rainySwitch.isOn = userPreference.isRainyEnabled
+                    snowySwitch.isOn = userPreference.isSnowyEnabled
+                    cloudySwitch.isOn = userPreference.isCloudyEnabled
+                }
+            } catch {
+                print("Error fetching user preferences: \(error.localizedDescription)")
+            }
+        }
         
-        // Do any additional setup after loading the view.
-    }
+        // Save switch states to Core Data
+        func saveSwitchStates() {
+            // Fetch the user preferences entity (replace "UserPreference" with your entity name)
+            let fetchRequest = NSFetchRequest<UserPreference>(entityName: "UserPreference")
+            
+            do {
+                let userPreferences = try managedObjectContext.fetch(fetchRequest)
+                
+                if let userPreference = userPreferences.last {
+                    userPreference.isStormEnabled = stormSwitch.isOn
+                    userPreference.isSunnyEnabled = sunnySwitch.isOn
+                    userPreference.isRainyEnabled = rainySwitch.isOn
+                    userPreference.isSnowyEnabled = snowySwitch.isOn
+                    userPreference.isCloudyEnabled = cloudySwitch.isOn
+                    
+                    try managedObjectContext.save()
+                }
+            } catch {
+                print("Error fetching user preferences: \(error.localizedDescription)")
+            }
+        }
+        
     
     @IBAction func stormSwitchChanged(_ sender: UISwitch) {
         if sender.isOn {
@@ -171,6 +223,14 @@ class NotificationsViewController: UIViewController {
     func cloudyCancelNotification() {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["cloudy"])
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Call the method to save switch states
+        saveSwitchStates()
+    }
+
     /*
      // MARK: - Navigation
      
